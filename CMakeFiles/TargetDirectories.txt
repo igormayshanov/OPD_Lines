@@ -1,0 +1,5 @@
+D:/IPS 2020/OPD/OPD_Lines/CMakeFiles/edit_cache.dir
+D:/IPS 2020/OPD/OPD_Lines/CMakeFiles/rebuild_cache.dir
+D:/IPS 2020/OPD/OPD_Lines/main/CMakeFiles/Lines.dir
+D:/IPS 2020/OPD/OPD_Lines/main/CMakeFiles/edit_cache.dir
+D:/IPS 2020/OPD/OPD_Lines/main/CMakeFiles/rebuild_cache.dir
