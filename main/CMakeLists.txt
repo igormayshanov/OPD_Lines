@@ -1,4 +1,4 @@
-add_executable(Lines main.cpp field.h field.cpp ball.h ball.cpp utils.h utils.cpp)
+add_executable(Lines main.cpp field.h field.cpp ball.h ball.cpp utils.h utils.cpp findPath.h findPath.cpp)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 

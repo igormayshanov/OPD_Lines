@@ -24,7 +24,6 @@ void generateAppearList(std::list<Cell> &appearList, int appearBalls);
 void addBallInGrid(const Cell &ball, std::vector<std::vector<Cell>> &gameGrid);
 void print2Vector(const std::vector<std::vector<Cell>> &gameGrid);
 void setSelectedBall(Cell &ball);
-// int getRandomNumber(int min, int max);
 void pollEvents(sf::RenderWindow &window); //опрашиваем и обрабатываем доступные события в цикле
 
 void update(const sf::Vector2f &mousePosition); //обновляем игровое поле

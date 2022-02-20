@@ -14,8 +14,9 @@ const sf::Vector2i OFFSET_FIELD(100, 100);
 const size_t MAX_FIELD_SIZE = 9;
 const size_t MIN_FIELD_SIZE = 0;
 
-const int directionsX[] = {1, 0, -1, 0};
-const int directionsY[] = {0, 1, 0, -1};
+const int DIRECTIONS_X[] = {1, 0, -1, 0};
+const int DIRECTIONS_Y[] = {0, 1, 0, -1};
+const int NUMBER_OF_DIRECTIONS = 4;
 const size_t NUMBER_OF_COLOR = 7;
 const size_t BALL_SPRITE_OFFSET = 0;
 const size_t END_BALL_SPRITE_OFFSET = 6;

@@ -694,6 +694,28 @@ vector
 iostream
 -
 
+D:/IPS 2020/OPD/OPD_Lines/main/findPath.cpp
+iostream
+-
+vector
+-
+queue
+-
+field.h
+D:/IPS 2020/OPD/OPD_Lines/main/field.h
+findPath.h
+D:/IPS 2020/OPD/OPD_Lines/main/findPath.h
+gameconst.h
+D:/IPS 2020/OPD/OPD_Lines/main/gameconst.h
+
+D:/IPS 2020/OPD/OPD_Lines/main/findPath.h
+vector
+-
+ball.h
+D:/IPS 2020/OPD/OPD_Lines/main/ball.h
+field.h
+D:/IPS 2020/OPD/OPD_Lines/main/field.h
+
 D:/IPS 2020/OPD/OPD_Lines/main/gameconst.h
 
 D:/IPS 2020/OPD/OPD_Lines/main/main.cpp
@@ -719,6 +741,8 @@ field.h
 D:/IPS 2020/OPD/OPD_Lines/main/field.h
 ball.h
 D:/IPS 2020/OPD/OPD_Lines/main/ball.h
+findPath.h
+D:/IPS 2020/OPD/OPD_Lines/main/findPath.h
 SFML/Graphics.hpp
 -
 

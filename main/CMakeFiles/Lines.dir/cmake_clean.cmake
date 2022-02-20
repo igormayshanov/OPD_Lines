@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lines.dir/field.cpp.obj"
   "CMakeFiles/Lines.dir/ball.cpp.obj"
   "CMakeFiles/Lines.dir/utils.cpp.obj"
+  "CMakeFiles/Lines.dir/findPath.cpp.obj"
   "Lines.pdb"
   "Lines.exe"
   "Lines.exe.manifest"

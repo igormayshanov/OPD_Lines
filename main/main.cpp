@@ -11,6 +11,7 @@
 #include "gameconst.h"
 #include "field.h"
 #include "ball.h"
+#include "findPath.h"
 
 using namespace sf;
 using namespace std;
@@ -101,7 +102,7 @@ int main()
                 {
                     if (checkOutOfBorder(x, y, MAX_FIELD_SIZE))
                     {
-                        if (state == GameState::init)
+                        if (state == GameState::init && !gameGrid[y][x].empty)
                         {
                             std::cout << "Mouse pressed in " << x << ", " << y << "\n";
                             setSelectedBall(gameGrid[y][x]);
@@ -115,7 +116,7 @@ int main()
                                       << gameGrid[y][x].selected
                                       << "\n";
                         }
-                        else if (state == GameState::ballSelected)
+                        else if (state == GameState::ballSelected && gameGrid[y][x].empty)
                         {
                             setSelectedBall(gameGrid[y][x]);
                             endCell = gameGrid[y][x];
@@ -127,6 +128,12 @@ int main()
                                       << gameGrid[y][x].y << ","
                                       << gameGrid[y][x].selected
                                       << "\n";
+                            if (state == GameState::ballMove)
+                            {
+                                findPathInGrid(gameGrid, startCell, endCell);
+                                print2Vector(gameGrid);
+                                state == GameState::init;
+                            }
                         }
                         else
                             break;
@@ -137,6 +144,7 @@ int main()
                 break;
             }
         }
+
         // Выполняем необходимые действия по отрисовке
         window.clear(sf::Color::White);
         drawFields(window, sprite);
@@ -146,14 +154,6 @@ int main()
     }
 
     return 0;
-}
-
-bool checkOutOfBorder(int x, int y, int fieldSize)
-{
-    if (x >= 0 && x < fieldSize && y >= 0 && y < fieldSize)
-        return true;
-    else
-        return false;
 }
 
 void handleEvents(sf::RenderWindow &window)

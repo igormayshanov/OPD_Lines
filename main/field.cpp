@@ -19,6 +19,13 @@ void drawFields(sf::RenderWindow &window, sf::Sprite &sprite)
         }
 }
 
+void initEmptyCell(Cell &cell)
+{
+    cell.empty = true;
+    cell.selected = false;
+    cell.color = CELL_SPRITE_OFFSET;
+}
+
 void initGameGrid(std::vector<std::vector<Cell>> &gameGrid)
 {
     for (int i = 0; i < gameGrid.size(); i++)
@@ -27,8 +34,7 @@ void initGameGrid(std::vector<std::vector<Cell>> &gameGrid)
         {
             gameGrid[i][j].x = j;
             gameGrid[i][j].y = i;
-            gameGrid[i][j].color = 0;
-            gameGrid[i][j].empty = true;
+            initEmptyCell(gameGrid[i][j]);
         }
     }
 }
@@ -44,4 +50,12 @@ bool isGameGridFull(const std::vector<std::vector<Cell>> &gameGrid)
         }
     }
     return true;
+}
+
+bool checkOutOfBorder(int x, int y, int fieldSize)
+{
+    if (x >= 0 && x < fieldSize && y >= 0 && y < fieldSize)
+        return true;
+    else
+        return false;
 }
