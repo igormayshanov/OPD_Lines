@@ -12,3 +12,12 @@ CTestTestfile.cmake
 # ignore VSCode settins
 .vscode/
 ~build/
+main/main.1.cpp
+*.obj
+*.includecache
+*.internal
+*.make
+*.obj
+*.obj
+*.a
+*.obj

@@ -10,11 +10,11 @@ using namespace game;
 void drawFields(sf::RenderWindow &window, sf::Sprite &sprite)
 {
     // Отрисовка спрайта ячейки
-    for (int i = MIN_FIELD_SIZE; i < MAX_FIELD_SIZE; i++)
-        for (int j = MIN_FIELD_SIZE; j < MAX_FIELD_SIZE; j++)
+    for (int i = game::MIN_FIELD_SIZE; i < game::MAX_FIELD_SIZE; i++)
+        for (int j = game::MIN_FIELD_SIZE; j < game::MAX_FIELD_SIZE; j++)
         {
-            sprite.setTextureRect(IntRect(CELL_SPRITE_OFFSET * CELL_WIDTH, 0, CELL_WIDTH, CELL_WIDTH));
-            sprite.setPosition(OFFSET_FIELD.x + i * CELL_WIDTH, OFFSET_FIELD.y + j * CELL_WIDTH);
+            sprite.setTextureRect(IntRect(game::CELL_SPRITE_OFFSET * game::CELL_WIDTH, 0, game::CELL_WIDTH, game::CELL_WIDTH));
+            sprite.setPosition(game::OFFSET_FIELD.x + i * game::CELL_WIDTH, game::OFFSET_FIELD.y + j * game::CELL_WIDTH);
             window.draw(sprite);
         }
 }
@@ -23,7 +23,7 @@ void initEmptyCell(Cell &cell)
 {
     cell.empty = true;
     cell.selected = false;
-    cell.color = CELL_SPRITE_OFFSET;
+    cell.color = game::CELL_SPRITE_OFFSET;
 }
 
 void initGameGrid(std::vector<std::vector<Cell>> &gameGrid)
@@ -41,9 +41,9 @@ void initGameGrid(std::vector<std::vector<Cell>> &gameGrid)
 
 bool isGameGridFull(const std::vector<std::vector<Cell>> &gameGrid)
 {
-    for (int i = 0; i < MAX_FIELD_SIZE; i++)
+    for (int i = 0; i < game::MAX_FIELD_SIZE; i++)
     {
-        for (int j = 0; j < MAX_FIELD_SIZE; j++)
+        for (int j = 0; j < game::MAX_FIELD_SIZE; j++)
         {
             if (gameGrid[i][j].empty == true)
                 return false;
@@ -52,9 +52,9 @@ bool isGameGridFull(const std::vector<std::vector<Cell>> &gameGrid)
     return true;
 }
 
-bool checkOutOfBorder(int x, int y, int fieldSize)
+bool checkOutOfBorder(int x, int y)
 {
-    if (x >= 0 && x < fieldSize && y >= 0 && y < fieldSize)
+    if (x >= 0 && x < game::MAX_FIELD_SIZE && y >= 0 && y < game::MAX_FIELD_SIZE)
         return true;
     else
         return false;

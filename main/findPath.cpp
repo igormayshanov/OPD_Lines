@@ -18,7 +18,7 @@ void printMatrix(int **matrix, int fieldSize)
     std::cout << std::endl;
 }
 
-void findNextCellInPath(int x, int y, std::vector<std::vector<Cell>> gameGrid, int **visited, int **path, std::queue<int> &plan, const Cell &endBall)
+void findNextCellInPath(int x, int y, std::vector<std::vector<Cell>> &gameGrid, int **visited, int **path, std::queue<int> &plan, const Cell &endBall)
 {
     int offset = 0;
     int ix, iy;
@@ -28,7 +28,7 @@ void findNextCellInPath(int x, int y, std::vector<std::vector<Cell>> gameGrid, i
         {
             ix = x + game::DIRECTIONS_X[i];
             iy = y + game::DIRECTIONS_Y[i];
-            if (checkOutOfBorder(ix, iy, game::MAX_FIELD_SIZE) && !visited[iy][ix] &&
+            if (checkOutOfBorder(ix, iy) && !visited[iy][ix] &&
                 (gameGrid[iy][ix].empty || (gameGrid[iy][ix].x == endBall.x && gameGrid[iy][ix].y == endBall.y)))
             {
                 path[iy][ix] = path[y][x] + 1;
@@ -40,7 +40,7 @@ void findNextCellInPath(int x, int y, std::vector<std::vector<Cell>> gameGrid, i
     }
 }
 
-void restorePath(Cell &startBall, Cell &endBall, std::vector<std::vector<Cell>> &gameGrid, int **path)
+void restorePath(Cell &startBall, Cell &endBall, std::vector<std::vector<Cell>> &gameGrid, int **path) //можно путь закинуть в стек
 {
     int x = endBall.x;
     int y = endBall.y;
@@ -48,8 +48,6 @@ void restorePath(Cell &startBall, Cell &endBall, std::vector<std::vector<Cell>> 
     int y_start = startBall.y;
     int ix = 0;
     int iy = 0;
-    Cell tmpCell = gameGrid[y][x];
-    //initEmptyCell(tmpCell);
     while (path[y][x] != path[y_start][x_start] + 1)
     {
         for (int i = 0; i < game::NUMBER_OF_DIRECTIONS; i++)
@@ -57,20 +55,17 @@ void restorePath(Cell &startBall, Cell &endBall, std::vector<std::vector<Cell>> 
             gameGrid[y][x] = startBall;
             ix = x + game::DIRECTIONS_X[i];
             iy = y + game::DIRECTIONS_Y[i];
-            if (checkOutOfBorder(ix, iy, game::MAX_FIELD_SIZE) && (path[y][x] != path[y_start][x_start] + 1) && (path[iy][ix] == path[y][x] - 1))
+            if (checkOutOfBorder(ix, iy) && (path[y][x] != path[y_start][x_start] + 1) && (path[iy][ix] == path[y][x] - 1))
             {
                 x = ix;
                 y = iy;
                 gameGrid[y][x] = startBall;
-                ix -= game::DIRECTIONS_X[i];
-                iy -= game::DIRECTIONS_Y[i];
-                gameGrid[iy][ix] = tmpCell;
             }
         }
     }
 }
 
-void findPathInGrid(std::vector<std::vector<Cell>> &gameGrid, Cell &startBall, Cell &endBall)
+bool findPathInGrid(std::vector<std::vector<Cell>> &gameGrid, Cell &startBall, Cell &endBall)
 {
     int x_start, y_start, x_end, y_end, x, y;
     std::queue<int> cellVisitQueue;
@@ -97,16 +92,17 @@ void findPathInGrid(std::vector<std::vector<Cell>> &gameGrid, Cell &startBall, C
         cellVisitQueue.pop();
         findNextCellInPath(x, y, gameGrid, visited, path, cellVisitQueue, endBall);
     }
-    if (!visited[endBall.y][endBall.x])
+    if (visited[endBall.y][endBall.x])
     {
-        std::cout << "No path" << std::endl;
-    }
-    else
-    {
-        std::cout << "There is a path" << std::endl;
+        //std::cout << "There is a path" << std::endl;
         gameGrid[endBall.y][endBall.x].color = startBall.color;
         gameGrid[endBall.y][endBall.x].empty = false;
         gameGrid[endBall.y][endBall.x].selected = false;
         initEmptyCell(gameGrid[startBall.y][startBall.x]);
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

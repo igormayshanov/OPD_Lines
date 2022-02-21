@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include "ball.h"
+#include "field.h"
 struct GameScene
 {
-    Field field;
-    Packman packman;
+    Cell ball;
     GameState gameState;
     unsigned scoreCount;
 

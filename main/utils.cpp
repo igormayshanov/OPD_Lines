@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <cassert>
 #include "utils.h"
 
 void initGenerator(PRNG &generator)
@@ -19,4 +20,28 @@ size_t getRandomIndex(PRNG &generator, size_t size)
     // Вычисляем псевдослучайное число: вызовем распределение как функцию,
     //  передав генератор произвольных целых чисел как аргумент.
     return distribution(generator.engine);
+}
+
+std::string GameStateToString(GameState gameState)
+{
+    switch (gameState)
+    {
+    case GameState::init:
+        return "init";
+    case GameState::ballMove:
+        return "ballMove";
+    case GameState::ballSelected:
+        return "ballSelected";
+    case GameState::stripBalls:
+        return "stripBalls";
+    case GameState::nextBalls:
+        return "nextBalls";
+    case GameState::stop:
+        return "stop";
+    case GameState::wait:
+        return "wait";
+    default:
+        assert(!"This is not possible");
+        return "";
+    }
 }
