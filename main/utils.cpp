@@ -28,14 +28,16 @@ std::string GameStateToString(GameState gameState)
     {
     case GameState::init:
         return "init";
-    case GameState::ballMove:
-        return "ballMove";
-    case GameState::ballSelected:
-        return "ballSelected";
-    case GameState::stripBalls:
-        return "stripBalls";
-    case GameState::nextBalls:
-        return "nextBalls";
+    case GameState::moveBall:
+        return "moveBall";
+    case GameState::selectBall:
+        return "selectBall";
+    case GameState::selectCell:
+        return "selectCell";
+    case GameState::deleteLines:
+        return "deleteLines";
+    case GameState::appearNewBalls:
+        return "appearNewBalls";
     case GameState::stop:
         return "stop";
     case GameState::wait:

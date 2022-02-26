@@ -18,6 +18,16 @@ void drawFields(sf::RenderWindow &window, sf::Sprite &sprite)
             window.draw(sprite);
         }
 }
+void drawAppearListField(sf::RenderWindow &window, sf::Sprite &sprite)
+{
+    // Отрисовка спрайта ячейки для шаров, которые появятся на следующем ходе
+    for (int i = game::MIN_FIELD_SIZE; i < game::APPEAR_BALLS; i++)
+    {
+        sprite.setTextureRect(IntRect(game::CELL_SPRITE_OFFSET * game::CELL_WIDTH, 0, game::CELL_WIDTH, game::CELL_WIDTH));
+        sprite.setPosition(game::OFFSET_APPEAR_LIST.x + i * game::CELL_WIDTH, game::OFFSET_APPEAR_LIST.y);
+        window.draw(sprite);
+    }
+}
 
 void initEmptyCell(Cell &cell)
 {

@@ -22,7 +22,9 @@ const size_t BALL_SPRITE_OFFSET = 0;
 const size_t END_BALL_SPRITE_OFFSET = 6;
 const size_t CELL_SPRITE_OFFSET = 7;
 
+const sf::Vector2i OFFSET_APPEAR_LIST(100, 50);
 const int APPEAR_BALLS = 3;
+const int MIN_BALL_TO_DELETE = 5;
 
 // static const sf::Color RED = sf::Color(255, 0, 0);
 // static const sf::Color PINK = sf::Color(255, 20, 147);

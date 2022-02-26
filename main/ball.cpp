@@ -1,3 +1,5 @@
+
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -50,6 +52,17 @@ void generateAppearList(std::list<Cell> &appearList)
         appBall.empty = false;
         appBall.selected = false;
         appearList.push_back(appBall);
+    }
+}
+void showAppearList(sf::RenderWindow &window, sf::Sprite &sprite, const std::list<Cell> &appearList)
+{
+    int i = 0;
+    for (Cell ball : appearList)
+    {
+        sprite.setTextureRect(IntRect(ball.color * game::CELL_WIDTH, 0, game::CELL_WIDTH, game::CELL_WIDTH));
+        sprite.setPosition(game::OFFSET_APPEAR_LIST.x + i * game::CELL_WIDTH, game::OFFSET_APPEAR_LIST.y);
+        window.draw(sprite);
+        i++;
     }
 }
 
@@ -111,4 +124,9 @@ void drawBalls(sf::RenderWindow &window, Sprite &sprite, std::vector<std::vector
 void setSelectedBall(Cell &ball)
 {
     ball.selected = true;
+}
+
+void unsetSelectedBall(Cell &ball)
+{
+    ball.selected = false;
 }

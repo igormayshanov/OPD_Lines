@@ -16,33 +16,19 @@ using namespace sf;
 using namespace std;
 using namespace game;
 
-// void onMouseButtonPressed(const sf::Event::MouseButtonPressed &event, sf::Vector2f &mouseClickPosition)
-// {
-//     mouseClickPosition = {float(event.x), float(event.y)};
-// }
-
-// bool checkBorder();
-// bool isEmptyCell();
-// void findPath();
-// void restorePath();
 // void checkLines();
-// void getRandomColor();
-
 // void getScore();
 // void gameOver(Event event);
 
-void handleEvents(sf::RenderWindow &window, sf::Event &event, sf::Vector2i &mouseClickPosition);
-sf::Vector2i getCellPositionWhenMousePressed(int x, int y);
+void handleEvents(sf::RenderWindow &window, sf::Event &event, GameState &gameState, sf::Vector2i &mouseClickPosition);
+sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition);
 bool checkOutOfBorder(int x, int y, int fieldSize);
 std::string GameStateToString(GameState gameState);
 
-void updateGame(const sf::Vector2i &mouseClickPosition, GameState &state, vector<vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endBall); //обновляем игровое поле
-// void update(sf::Clock &clock, GameScene &scene);
-// void render(sf::RenderWindow &window, const GameScene &scene);
+void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endCell);
 
 int main()
 {
-
     std::list<Cell> appearList;
     sf::ContextSettings settings;
     settings.antialiasingLevel = ANTIALIASING_LEVEL;
@@ -54,7 +40,7 @@ int main()
 
     GameState gameState = GameState::init;
     Cell startBall;
-    Cell endBall;
+    Cell endCell;
     sf::Texture texture;
     texture.loadFromFile("../img/cell.png");
     sf::Sprite sprite(texture);
@@ -64,23 +50,24 @@ int main()
     generateAppearList(appearList);
     arrangeBallsRandomly(appearList, gameGrid);
     print2Vector(gameGrid);
-    gameState = GameState::wait;
 
     sf::Event event;
 
     while (window.isOpen())
     {
-        handleEvents(window, event, mouseClickPosition);
-        updateGame(mouseClickPosition, gameState, gameGrid, appearList, startBall, endBall);
+        handleEvents(window, event, gameState, mouseClickPosition);
+        updateGame(mouseClickPosition, gameState, gameGrid, appearList, startBall, endCell);
         window.clear(sf::Color::White);
+        drawAppearListField(window, sprite);
         drawFields(window, sprite);
         drawBalls(window, sprite, gameGrid);
+        showAppearList(window, sprite, appearList);
         window.display();
     }
     return 0;
 }
 
-void handleEvents(sf::RenderWindow &window, sf::Event &event, sf::Vector2i &mouseClickPosition)
+void handleEvents(sf::RenderWindow &window, sf::Event &event, GameState &gameState, sf::Vector2i &mouseClickPosition)
 {
     while (window.pollEvent(event))
     {
@@ -96,10 +83,13 @@ void handleEvents(sf::RenderWindow &window, sf::Event &event, sf::Vector2i &mous
         case sf::Event::MouseButtonPressed:
             if ((event.mouseButton.button == Mouse::Left) && (event.mouseButton.x > game::OFFSET_FIELD.x) && (event.mouseButton.y > game::OFFSET_FIELD.y))
             {
-                sf::Vector2i temp = getCellPositionWhenMousePressed(event.mouseButton.x, event.mouseButton.y);
+                sf::Vector2i temp = getCellPositionWhenMousePressed({event.mouseButton.x, event.mouseButton.y});
                 if (checkOutOfBorder(temp.x, temp.y))
                 {
                     mouseClickPosition = temp;
+                    if (gameState != GameState::selectCell)
+                        gameState = GameState::wait;
+                    std::cout << "Click " << GameStateToString(gameState) << std::endl;
                 }
             }
             break;
@@ -109,13 +99,13 @@ void handleEvents(sf::RenderWindow &window, sf::Event &event, sf::Vector2i &mous
     }
 }
 
-sf::Vector2i getCellPositionWhenMousePressed(int x, int y)
+sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition)
 {
-    return {(x - game::OFFSET_FIELD.x) / CELL_WIDTH,
-            (y - game::OFFSET_FIELD.y) / CELL_WIDTH};
+    return {(mousePosition.x - game::OFFSET_FIELD.x) / CELL_WIDTH,
+            (mousePosition.y - game::OFFSET_FIELD.y) / CELL_WIDTH};
 }
 
-void updateGame(const sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endBall)
+void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endCell)
 {
     switch (state)
     {
@@ -127,41 +117,47 @@ void updateGame(const sf::Vector2i &mouseClickPosition, GameState &state, std::v
         {
             std::cout << "StartCell x: " << mouseClickPosition.x << std::endl;
             std::cout << "StartCell y: " << mouseClickPosition.y << std::endl;
+            std::cout << "StartCell selected status: " << gameGrid[mouseClickPosition.y][mouseClickPosition.x].selected << std::endl;
             setSelectedBall(gameGrid[mouseClickPosition.y][mouseClickPosition.x]);
             startBall = gameGrid[mouseClickPosition.y][mouseClickPosition.x];
-            state = GameState::ballSelected;
+            std::cout << "StartCell selected status: " << startBall.selected << std::endl;
+            state = GameState::selectCell;
             std::cout << GameStateToString(state) << std::endl;
         }
     }
+
     break;
-    case GameState::ballSelected:
+    case GameState::selectCell:
     {
         if (gameGrid[mouseClickPosition.y][mouseClickPosition.x].empty)
         {
             std::cout << "endCell x: " << mouseClickPosition.x << std::endl;
             std::cout << "endCell y: " << mouseClickPosition.y << std::endl;
             setSelectedBall(gameGrid[mouseClickPosition.y][mouseClickPosition.x]);
-            endBall = gameGrid[mouseClickPosition.y][mouseClickPosition.x];
-            state = GameState::ballMove;
+            endCell = gameGrid[mouseClickPosition.y][mouseClickPosition.x];
+            state = GameState::moveBall;
             std::cout << GameStateToString(state) << std::endl;
         }
     }
+
     break;
-    case GameState::ballMove:
+    case GameState::selectBall:
+        break;
+    case GameState::moveBall:
     {
         std::cout << "Ok, I am in ballMove case!!!" << std::endl;
-        if (findPathInGrid(gameGrid, startBall, endBall))
-            state = GameState::stripBalls;
+        if (findPathInGrid(gameGrid, startBall, endCell))
+            state = GameState::deleteLines;
         else
         {
-            state = GameState::ballSelected;
+            state = GameState::selectCell;
             std::cout << "No path" << std::endl;
         }
 
         std::cout << GameStateToString(state) << std::endl;
     }
     break;
-    case GameState::nextBalls:
+    case GameState::appearNewBalls:
     {
         if (isGameGridFull(gameGrid))
         {
@@ -170,41 +166,20 @@ void updateGame(const sf::Vector2i &mouseClickPosition, GameState &state, std::v
         generateAppearList(appearList);
         //add a function to display the list
         arrangeBallsRandomly(appearList, gameGrid);
-        state = GameState::wait;
+        //state = GameState::wait;
         std::cout << GameStateToString(state) << std::endl;
     }
     break;
-    case GameState::stripBalls:
+    case GameState::deleteLines:
     {
-        state = GameState::wait;
+        state = GameState::appearNewBalls;
         std::cout << GameStateToString(state) << std::endl;
     }
     break;
     case GameState::stop:
         std::cout << GameStateToString(state) << std::endl;
         break;
-        // default:
-        //     brake;
+    default:
+        break;
     }
 }
-
-// init,
-//     wait,
-//     ballSelected,
-//     ballMove,
-//     nextBalls,
-//     stripBalls,
-//     stop,
-// void update(sf::Clock &clock, GameScene &scene)
-// {
-//     const float elapsedTime = clock.getElapsedTime().asSeconds();
-//     clock.restart();
-//     updateGameScene(scene, elapsedTime);
-// }
-
-// void render(sf::RenderWindow &window, const GameScene &scene)
-// {
-//     window.clear();
-//     drawGameScene(window, scene);
-//     window.display();
-// }
