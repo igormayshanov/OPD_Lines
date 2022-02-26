@@ -11,6 +11,7 @@
 #include "field.h"
 #include "ball.h"
 #include "findPath.h"
+#include "utils.h"
 
 using namespace sf;
 using namespace std;
@@ -25,11 +26,12 @@ sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition);
 bool checkOutOfBorder(int x, int y, int fieldSize);
 std::string GameStateToString(GameState gameState);
 
-void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endCell);
+void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, std::list<Cell> &deletedLine, Cell &startBall, Cell &endCell);
 
 int main()
 {
     std::list<Cell> appearList;
+    std::list<Cell> deletedLine;
     sf::ContextSettings settings;
     settings.antialiasingLevel = ANTIALIASING_LEVEL;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGTH), "Lines");
@@ -56,7 +58,7 @@ int main()
     while (window.isOpen())
     {
         handleEvents(window, event, gameState, mouseClickPosition);
-        updateGame(mouseClickPosition, gameState, gameGrid, appearList, startBall, endCell);
+        updateGame(mouseClickPosition, gameState, gameGrid, appearList, deletedLine, startBall, endCell);
         window.clear(sf::Color::White);
         drawAppearListField(window, sprite);
         drawFields(window, sprite);
@@ -105,8 +107,9 @@ sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition)
             (mousePosition.y - game::OFFSET_FIELD.y) / CELL_WIDTH};
 }
 
-void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, Cell &startBall, Cell &endCell)
+void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> appearList, std::list<Cell> &deletedLine, Cell &startBall, Cell &endCell)
 {
+
     switch (state)
     {
     case GameState::init:
@@ -162,17 +165,34 @@ void updateGame(sf::Vector2i &mouseClickPosition, GameState &state, std::vector<
         if (isGameGridFull(gameGrid))
         {
             state = GameState::stop;
+            std::cout << "Game over!!!" << std::endl;
         }
-        generateAppearList(appearList);
-        //add a function to display the list
-        arrangeBallsRandomly(appearList, gameGrid);
+        else
+        {
+            generateAppearList(appearList);
+            //add a function to display the list
+            arrangeBallsRandomly(appearList, gameGrid);
+            state = GameState::stop;
+        }
+
         //state = GameState::wait;
         std::cout << GameStateToString(state) << std::endl;
     }
     break;
     case GameState::deleteLines:
     {
-        state = GameState::appearNewBalls;
+        if (checkLines(endCell, gameGrid, deletedLine))
+        {
+            std::cout << "checkLines OK" << std::endl;
+            state = GameState::stop;
+            printList(deletedLine);
+        }
+        else
+        {
+            std::cout << "checkLines NOT OK" << std::endl;
+            state = GameState::appearNewBalls;
+        }
+
         std::cout << GameStateToString(state) << std::endl;
     }
     break;

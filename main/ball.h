@@ -24,6 +24,6 @@ void arrangeBallsRandomly(std::list<Cell> &appearList, std::vector<std::vector<C
 void generateAppearList(std::list<Cell> &appearList);
 void showAppearList(sf::RenderWindow &window, sf::Sprite &sprite, const std::list<Cell> &appearList);
 void addBallInGrid(const Cell &ball, std::vector<std::vector<Cell>> &gameGrid);
-void print2Vector(const std::vector<std::vector<Cell>> &gameGrid);
 void setSelectedBall(Cell &ball);
 void unsetSelectedBall(Cell &ball);
+bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &deletedLine);

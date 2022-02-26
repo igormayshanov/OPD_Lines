@@ -2,6 +2,7 @@
 #include <random>
 #include <ctime>
 #include <cassert>
+#include <list>
 #include "utils.h"
 
 void initGenerator(PRNG &generator)
@@ -46,4 +47,33 @@ std::string GameStateToString(GameState gameState)
         assert(!"This is not possible");
         return "";
     }
+}
+
+void print2Vector(const std::vector<std::vector<Cell>> &gameGrid)
+{
+    for (int i = 0; i < gameGrid.size(); i++)
+    {
+        for (int j = 0; j < gameGrid.size(); j++)
+        {
+            //cout << gameGrid[i][j].x << "," << gameGrid[i][j].y << " ";
+            std::cout << gameGrid[i][j].color << "  ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void printVector(const std::vector<Cell> &inVector)
+{
+    for (int i = 0; i < inVector.size(); i++)
+    {
+        //cout << gameGrid[i][j].x << "," << gameGrid[i][j].y << " ";
+        std::cout << inVector[i].x << ",  " << inVector[i].y << "; ";
+    }
+}
+
+void printList(const std::list<Cell> &inList)
+{
+    for (Cell n : inList)
+        std::cout << n.x << ",  " << n.y << "; ";
+    std::cout << "\n";
 }

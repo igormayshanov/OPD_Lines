@@ -1,5 +1,6 @@
 
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -94,19 +95,6 @@ void arrangeBallsRandomly(std::list<Cell> &appearList, std::vector<std::vector<C
     }
 }
 
-void print2Vector(const std::vector<std::vector<Cell>> &gameGrid)
-{
-    for (int i = 0; i < gameGrid.size(); i++)
-    {
-        for (int j = 0; j < gameGrid.size(); j++)
-        {
-            //cout << gameGrid[i][j].x << "," << gameGrid[i][j].y << " ";
-            std::cout << gameGrid[i][j].color << "  ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 void drawBalls(sf::RenderWindow &window, Sprite &sprite, std::vector<std::vector<Cell>> &gameGrid)
 {
     for (int i = game::MIN_FIELD_SIZE; i < game::MAX_FIELD_SIZE; i++)
@@ -129,4 +117,58 @@ void setSelectedBall(Cell &ball)
 void unsetSelectedBall(Cell &ball)
 {
     ball.selected = false;
+}
+
+bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &deletedLine)
+{
+    int x = inBall.x;
+    int y = inBall.y;
+    int color = inBall.color;
+    Cell ball;
+    int i, j;
+    bool findLine = false;
+    i = 1;
+    while (x + i < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем вправо от шара
+        i++;
+    j = 1;
+    while (x - j < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем влево от шара
+        j++;
+    int ballCounter = i + j - 1;
+    if (ballCounter >= game::MIN_BALL_TO_DELETE)
+    {
+        ball.x = x + i;
+        ball.y = y;
+        for (int c = 0; c < ballCounter; c++)
+        {
+            ball.x--;
+            std::cout << "X. Add in Line to delete= " << ball.x << " , " << ball.y << std::endl;
+            deletedLine.push_back(ball);
+        }
+        findLine = true;
+    }
+    i = 1;
+    while (y + i < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем вправо от шара
+        i++;
+    j = 1;
+    while (y - j < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем влево от шара
+        j++;
+    ballCounter = i + j - 1;
+    if (ballCounter >= game::MIN_BALL_TO_DELETE)
+    {
+        ball.x = x;
+        ball.y = y + i;
+        for (int c = 0; c < ballCounter; c++)
+        {
+            ball.y--;
+            std::cout << "Y. Add in Line to delete= " << ball.x << " , " << ball.y << std::endl;
+            deletedLine.push_back(ball);
+        }
+        findLine = true;
+    }
+    if (findLine)
+    {
+        deletedLine.remove(inBall);
+        deletedLine.push_back(inBall);
+    }
+    return findLine;
 }
