@@ -94,7 +94,6 @@ bool findPathInGrid(std::vector<std::vector<Cell>> &gameGrid, Cell &startBall, C
     }
     if (visited[endCell.y][endCell.x])
     {
-        //std::cout << "There is a path" << std::endl;
         gameGrid[endCell.y][endCell.x].color = startBall.color;
         gameGrid[endCell.y][endCell.x].empty = false;
         gameGrid[endCell.y][endCell.x].selected = false;

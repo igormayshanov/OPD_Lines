@@ -1,10 +1,9 @@
-
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <iostream>
 #include <list>
 #include <vector>
-#include <cstdlib> // для функции rand()
+#include <cstdlib>
 #include <set>
 #include <random>
 #include <ctime>
@@ -19,7 +18,6 @@ using namespace game;
 void generateAppearList(std::list<Cell> &appearList)
 {
     Cell appBall;
-    appearList.clear();
     std::set<size_t> usedColors;
     std::set<size_t> usedX;
     std::set<size_t> usedY;
@@ -90,7 +88,6 @@ void arrangeBallsRandomly(std::list<Cell> &appearList, std::vector<std::vector<C
 {
     for (Cell next : appearList)
     {
-        // std::cout << next.x << " , " << next.y << " color= " << next.color << std::endl;
         addBallInGrid(next, gameGrid);
     }
 }
@@ -119,19 +116,21 @@ void unsetSelectedBall(Cell &ball)
     ball.selected = false;
 }
 
-bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &deletedLine)
+bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &lineToDelete)
 {
+    lineToDelete.clear();
     int x = inBall.x;
     int y = inBall.y;
     int color = inBall.color;
+    std::cout << "x= " << x << " y= " << y << " check color= " << color << " empty= " << inBall.empty << " selected= " << inBall.selected << std::endl;
     Cell ball;
     int i, j;
     bool findLine = false;
     i = 1;
-    while (x + i < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем вправо от шара
+    while (x + i < game::MAX_FIELD_SIZE && !gameGrid[y][x + i].empty && gameGrid[y][x + i].color == color) //проверяем вправо от шара
         i++;
     j = 1;
-    while (x - j < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем влево от шара
+    while (x - j >= 0 && !gameGrid[y][x - j].empty && gameGrid[y][x - j].color == color) //проверяем влево от шара
         j++;
     int ballCounter = i + j - 1;
     if (ballCounter >= game::MIN_BALL_TO_DELETE)
@@ -141,16 +140,15 @@ bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::lis
         for (int c = 0; c < ballCounter; c++)
         {
             ball.x--;
-            std::cout << "X. Add in Line to delete= " << ball.x << " , " << ball.y << std::endl;
-            deletedLine.push_back(ball);
+            lineToDelete.push_back(ball);
         }
         findLine = true;
     }
     i = 1;
-    while (y + i < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем вправо от шара
+    while (y + i < game::MAX_FIELD_SIZE && !gameGrid[y + i][x].empty && gameGrid[y + i][x].color == color) //проверяем вправо от шара
         i++;
     j = 1;
-    while (y - j < game::MAX_FIELD_SIZE && !gameGrid[y][x].empty && gameGrid[y][x].color == color) //проверяем влево от шара
+    while (y - j >= 0 && !gameGrid[y - i][x].empty && gameGrid[y - i][x].color == color) //проверяем влево от шара
         j++;
     ballCounter = i + j - 1;
     if (ballCounter >= game::MIN_BALL_TO_DELETE)
@@ -160,15 +158,19 @@ bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::lis
         for (int c = 0; c < ballCounter; c++)
         {
             ball.y--;
-            std::cout << "Y. Add in Line to delete= " << ball.x << " , " << ball.y << std::endl;
-            deletedLine.push_back(ball);
+            lineToDelete.push_back(ball);
         }
         findLine = true;
     }
-    if (findLine)
-    {
-        deletedLine.remove(inBall);
-        deletedLine.push_back(inBall);
-    }
+    // if (findLine)
+    // {
+    //     lineToDelete.remove(inBall);
+    //     lineToDelete.push_back(inBall);
+    // }
     return findLine;
+}
+
+int getScore(const std::list<Cell> &lineToDelete)
+{
+    return (lineToDelete.size() - game::MIN_BALL_TO_DELETE + 1) * lineToDelete.size();
 }

@@ -21,3 +21,7 @@ main/main.1.cpp
 *.obj
 *.a
 *.obj
+*.obj
+*.exe
+*.exe
+*.zip
