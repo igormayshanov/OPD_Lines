@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <sstream>
 #include "field.h"
 #include "gameconst.h"
 
@@ -69,11 +68,4 @@ bool checkOutOfBorder(int x, int y)
         return true;
     else
         return false;
-}
-void drawScore(sf::RenderWindow &window, int score, sf::Text &gameScoreText)
-{
-    std::ostringstream gameScoreString;
-    gameScoreString << score;
-    gameScoreText.setString(gameScoreString.str());
-    window.draw(gameScoreText);
 }

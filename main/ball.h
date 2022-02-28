@@ -26,5 +26,4 @@ void showAppearList(sf::RenderWindow &window, sf::Sprite &sprite, const std::lis
 void addBallInGrid(const Cell &ball, std::vector<std::vector<Cell>> &gameGrid);
 void setSelectedBall(Cell &ball);
 void unsetSelectedBall(Cell &ball);
-bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &lineToDelete);
-int getScore(const std::list<Cell> &lineToDelete);
+bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::list<Cell> &deletedLine);

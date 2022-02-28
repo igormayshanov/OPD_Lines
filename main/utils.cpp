@@ -4,7 +4,6 @@
 #include <cassert>
 #include <list>
 #include "utils.h"
-#include "gameconst.h"
 
 void initGenerator(PRNG &generator)
 {
@@ -18,6 +17,7 @@ size_t getRandomIndex(PRNG &generator, size_t size)
 {
     // Создаём распределение
     std::uniform_int_distribution<size_t> distribution(0, size);
+
     // Вычисляем псевдослучайное число: вызовем распределение как функцию,
     //  передав генератор произвольных целых чисел как аргумент.
     return distribution(generator.engine);
@@ -76,10 +76,4 @@ void printList(const std::list<Cell> &inList)
     for (Cell n : inList)
         std::cout << n.x << ",  " << n.y << "; ";
     std::cout << "\n";
-}
-
-sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition)
-{
-    return {(mousePosition.x - game::OFFSET_FIELD.x) / game::CELL_WIDTH,
-            (mousePosition.y - game::OFFSET_FIELD.y) / game::CELL_WIDTH};
 }
