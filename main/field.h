@@ -11,15 +11,9 @@ struct Cell
     size_t color;
     bool empty;
     bool selected;
-    bool operator==(const Cell &other) const
-    {
-        return std::tie(x, y, color, empty) == std::tie(other.x, other.y, other.color, other.empty);
-    }
-    bool operator!=(const Cell &other) const
-    {
-        return std::tie(x, y, color, empty) != std::tie(other.x, other.y, other.color, other.empty);
-    }
 };
+
+bool operator==(const Cell &cell1, const Cell &cell2);
 
 void drawFields(sf::RenderWindow &window, sf::Sprite &sprite);
 void drawAppearListField(sf::RenderWindow &window, sf::Sprite &sprite);

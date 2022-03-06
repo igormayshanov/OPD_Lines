@@ -306,6 +306,7 @@ main/CMakeFiles/Lines.dir/main.cpp.obj: main/field.h
 main/CMakeFiles/Lines.dir/main.cpp.obj: main/findPath.h
 main/CMakeFiles/Lines.dir/main.cpp.obj: main/gameconst.h
 main/CMakeFiles/Lines.dir/main.cpp.obj: main/main.cpp
+main/CMakeFiles/Lines.dir/main.cpp.obj: main/utils.h
 
 main/CMakeFiles/Lines.dir/utils.cpp.obj: C:/CppDistro/MinGW/include/SFML/Config.hpp
 main/CMakeFiles/Lines.dir/utils.cpp.obj: C:/CppDistro/MinGW/include/SFML/Graphics.hpp
@@ -380,6 +381,7 @@ main/CMakeFiles/Lines.dir/utils.cpp.obj: C:/CppDistro/MinGW/include/SFML/Window/
 main/CMakeFiles/Lines.dir/utils.cpp.obj: C:/CppDistro/MinGW/include/SFML/Window/WindowStyle.hpp
 main/CMakeFiles/Lines.dir/utils.cpp.obj: main/ball.h
 main/CMakeFiles/Lines.dir/utils.cpp.obj: main/field.h
+main/CMakeFiles/Lines.dir/utils.cpp.obj: main/gameconst.h
 main/CMakeFiles/Lines.dir/utils.cpp.obj: main/utils.cpp
 main/CMakeFiles/Lines.dir/utils.cpp.obj: main/utils.h
 

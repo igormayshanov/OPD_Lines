@@ -10,7 +10,7 @@ const int MAX_FPS = 60;
 const int ANTIALIASING_LEVEL = 4;
 
 const int CELL_WIDTH = 40;
-const sf::Vector2i OFFSET_FIELD(60, 80);
+const sf::Vector2i OFFSET_FIELD(70, 80);
 const size_t MAX_FIELD_SIZE = 9;
 const size_t MIN_FIELD_SIZE = 0;
 
@@ -22,7 +22,7 @@ const size_t BALL_SPRITE_OFFSET = 0;
 const size_t END_BALL_SPRITE_OFFSET = 6;
 const size_t CELL_SPRITE_OFFSET = 7;
 
-const sf::Vector2i OFFSET_APPEAR_LIST(60, 30);
+const sf::Vector2i OFFSET_APPEAR_LIST(OFFSET_FIELD.x, 30);
 const int APPEAR_BALLS = 3;
 const int MIN_BALL_TO_DELETE = 5;
 

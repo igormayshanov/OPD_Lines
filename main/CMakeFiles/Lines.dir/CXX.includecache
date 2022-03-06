@@ -641,6 +641,10 @@ SFML/Config.hpp
 C:/CppDistro/MinGW/include/SFML/Window/WindowStyle.hpp
 
 D:/IPS 2020/OPD/OPD_Lines/main/ball.cpp
+SFML/Graphics.hpp
+-
+algorithm
+-
 iostream
 -
 list
@@ -680,6 +684,8 @@ D:/IPS 2020/OPD/OPD_Lines/main/field.cpp
 iostream
 -
 vector
+-
+sstream
 -
 field.h
 D:/IPS 2020/OPD/OPD_Lines/main/field.h
@@ -741,8 +747,12 @@ ball.h
 D:/IPS 2020/OPD/OPD_Lines/main/ball.h
 findPath.h
 D:/IPS 2020/OPD/OPD_Lines/main/findPath.h
+utils.h
+D:/IPS 2020/OPD/OPD_Lines/main/utils.h
 
 D:/IPS 2020/OPD/OPD_Lines/main/utils.cpp
+SFML/Graphics.hpp
+-
 iostream
 -
 random
@@ -751,13 +761,23 @@ ctime
 -
 cassert
 -
+list
+-
 utils.h
 D:/IPS 2020/OPD/OPD_Lines/main/utils.h
+gameconst.h
+D:/IPS 2020/OPD/OPD_Lines/main/gameconst.h
 
 D:/IPS 2020/OPD/OPD_Lines/main/utils.h
+SFML/Graphics.hpp
+-
 random
 -
+list
+-
 string
+-
+vector
 -
 ball.h
 D:/IPS 2020/OPD/OPD_Lines/main/ball.h

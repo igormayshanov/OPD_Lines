@@ -30,8 +30,12 @@ std::string GameStateToString(GameState gameState)
     {
     case GameState::init:
         return "init";
+    case GameState::gameOver:
+        return "gameOver";
     case GameState::moveBall:
         return "moveBall";
+    case GameState::newGame:
+        return "newGame";
     case GameState::selectBall:
         return "selectBall";
     case GameState::selectCell:
@@ -83,4 +87,20 @@ sf::Vector2i getCellPositionWhenMousePressed(sf::Vector2i mousePosition)
 {
     return {(mousePosition.x - game::OFFSET_FIELD.x) / game::CELL_WIDTH,
             (mousePosition.y - game::OFFSET_FIELD.y) / game::CELL_WIDTH};
+}
+
+void gameOver(sf::RenderWindow &window)
+{
+    sf::Font font;
+    font.loadFromFile("../fonts/arial.ttf");
+    sf::Text textGameOver("Game over!\n Press Tab to continue", font, 32);
+    textGameOver.setStyle(sf::Text::Bold);
+    sf::RectangleShape rectangle;
+    rectangle.setSize(sf::Vector2f(game::CELL_WIDTH * game::MAX_FIELD_SIZE, game::CELL_WIDTH * game::MAX_FIELD_SIZE));
+    rectangle.setFillColor(sf::Color(0, 0, 0, 150));
+    rectangle.setPosition(game::OFFSET_FIELD.x, game::OFFSET_FIELD.y);
+    textGameOver.setFillColor(sf::Color::Red);
+    textGameOver.setPosition(game::OFFSET_FIELD.x + game::CELL_WIDTH * 2, game::OFFSET_FIELD.y + game::MAX_FIELD_SIZE / 2 * game::CELL_WIDTH);
+    window.draw(rectangle);
+    window.draw(textGameOver);
 }

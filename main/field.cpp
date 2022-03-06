@@ -8,6 +8,12 @@ using namespace sf;
 using namespace std;
 using namespace game;
 
+bool operator==(const Cell &cell1, const Cell &cell2)
+{
+    return cell1.x == cell2.x && cell1.y == cell2.y && cell1.color == cell2.color && cell1.empty == cell2.empty;
+}
+
+
 void drawFields(sf::RenderWindow &window, sf::Sprite &sprite)
 {
     // Отрисовка спрайта ячейки

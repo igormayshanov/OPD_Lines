@@ -33,7 +33,6 @@ void generateAppearList(std::list<Cell> &appearList)
             colorIndex = getRandomIndex(generator, game::END_BALL_SPRITE_OFFSET);
             x = getRandomIndex(generator, game::MAX_FIELD_SIZE - 1);
             y = getRandomIndex(generator, game::MAX_FIELD_SIZE - 1);
-
             // Проверяем, что индекс ранее не встречался
             if (usedColors.find(colorIndex) == usedColors.end() && usedX.find(x) == usedX.end() && usedY.find(y) == usedY.end())
             {
@@ -145,10 +144,10 @@ bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::lis
         findLine = true;
     }
     i = 1;
-    while (y + i < game::MAX_FIELD_SIZE && !gameGrid[y + i][x].empty && gameGrid[y + i][x].color == color) //проверяем вправо от шара
+    while (y + i < game::MAX_FIELD_SIZE && !gameGrid[y + i][x].empty && gameGrid[y + i][x].color == color) //проверяем вниз от шара
         i++;
     j = 1;
-    while (y - j >= 0 && !gameGrid[y - i][x].empty && gameGrid[y - i][x].color == color) //проверяем влево от шара
+    while (y - j >= 0 && !gameGrid[y - j][x].empty && gameGrid[y - j][x].color == color) //проверяем вверх от шара
         j++;
     ballCounter = i + j - 1;
     if (ballCounter >= game::MIN_BALL_TO_DELETE)
@@ -165,6 +164,7 @@ bool checkLines(Cell &inBall, std::vector<std::vector<Cell>> &gameGrid, std::lis
     // if (findLine)
     // {
     //     lineToDelete.remove(inBall);
+    //     printList(lineToDelete);
     //     lineToDelete.push_back(inBall);
     // }
     return findLine;

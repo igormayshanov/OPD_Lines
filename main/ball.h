@@ -14,8 +14,10 @@ enum class GameState
     selectBall,
     selectCell,
     moveBall,
+    newGame,
     appearNewBalls,
     deleteLines,
+    gameOver,
     stop,
 };
 
